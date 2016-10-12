@@ -13,6 +13,7 @@ module.exports = (function setup() {
   };
 
   is.clsnm = function (obj, cmp) {
+    if ((obj && typeof obj) !== 'object') { return null; }
     var os = Object.prototype.toString.call(obj);
     if (cmp) { return (os === ('[object ' + cmp + ']')); }
     return os.replace(/^\[object /, '').replace(/\]$/, '');
