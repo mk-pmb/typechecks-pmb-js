@@ -3,20 +3,36 @@
 'use strict';
 
 module.exports = (function setup() {
-  var is = {
+  var ObjPt = Object.prototype, is = {
     ary: Array.isArray,
     fin: Number.isFinite,
     fun: function (x) { return ((typeof x) === 'function'); },
     num: function (x) { return ((typeof x) === 'number'); },
-    obj: function (x) { return ((x && typeof x) === 'object'); },
+    obj: function (x) { return (x ? ((typeof x) === 'object') : false); },
     str: function (x) { return ((typeof x) === 'string'); },
   };
 
-  is.clsnm = function (obj, cmp) {
-    if ((obj && typeof obj) !== 'object') { return null; }
-    var os = Object.prototype.toString.call(obj);
-    if (cmp) { return (os === ('[object ' + cmp + ']')); }
-    return os.replace(/^\[object /, '').replace(/\]$/, '');
+  is.proto = function (x) { return (is.obj(x) && Object.getPrototypeOf(x)); };
+                  //  unambiguous --^ : Object.create(false) -> TypeError
+  (function (iso) {
+    if (Object.getPrototypeOf) {
+      iso.plain = function (x) { return (is.proto(x) === ObjPt); };
+      iso.simple = function (x) { return is.in2(is.proto(x), ObjPt, null); };
+    } else {
+      // Fallible but still better than just failing. In lacking environments,
+      // you have to expect shims anyway, and thus, sub-perfect accuracy.
+      iso.plain = iso.simple = function (x) { return is.clsnm(x, 'Object'); };
+    }
+  }(is.obj));
+
+  is.in2 = function (x, a, b) { return ((x === a) || (x === b)); };
+
+  is.ncls = function nativeClassName(obj, cmp) {
+    // ATT: will identify all user-defined classes as just "Object".
+    if ((obj && typeof obj) !== 'object') { return false; }
+    var cn = ObjPt.toString.call(obj).slice(8, -1);
+    if (cmp) { return (cn === cmp); }
+    return cn;
   };
 
   /*jslint eqeq:true */

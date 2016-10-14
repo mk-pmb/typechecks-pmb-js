@@ -1,5 +1,5 @@
 { "name": "typechecks-pmb",
-  "version": "0.161010.2",
+  "version": "0.161010.3",
   "description": "Yet another collection of typechecks.",
   "keywords": [],
 
@@ -16,14 +16,14 @@
   "private": false, "license": "ISC",
 
   "main": "typechecks.js",
-  "scripts": { "test": "nodejs test.js" },
+  "scripts": { "test": "nodejs test/all.js" },
   "directories": {
     "doc": "doc",
     "test": "test"
   },
 
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": { "equal-pmb": "^0.1.2" },
 
 
   "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
