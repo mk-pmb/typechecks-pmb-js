@@ -8,7 +8,7 @@ module.exports = (function setup() {
     fin: Number.isFinite,
     fun: function (x) { return ((typeof x) === 'function'); },
     num: function (x) { return ((typeof x) === 'number'); },
-    obj: function (x) { return (x ? ((typeof x) === 'object') : false); },
+    obj: function (x) { return ((x && typeof x) === 'object'); },
     str: function (x) { return ((typeof x) === 'string'); },
   };
 
