@@ -41,6 +41,7 @@ module.exports = (function setup() {
   is.strictlyEqual = function (a, b) { return (a === b); };
 
   is.ifFunc = function (f, d, t) { return (is.fun(f) ? (t || f) : d); };
+  is.ifObj = function (o, d, t) { return (is.obj(o) ? (t || o) : d); };
 
   is.undef = function (x, then) {
     if (x === undefined) {
