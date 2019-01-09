@@ -3,14 +3,30 @@
 'use strict';
 
 module.exports = (function setup() {
-  var ObjPt = Object.prototype, is = {
+  var ObjPt = Object.prototype, finNum = Number.isFinite;
+
+  function is(crit) {
+    if (!crit) { throw new Error('No criterion given'); }
+    var f = is[crit];
+    if (!f) { throw new Error('Unsupported criterion: ' + crit); }
+    return f;
+  }
+
+  function isFun(x) { return ((typeof x) === 'function'); }
+
+  Object.assign(is, {
     ary: Array.isArray,
-    fin: Number.isFinite,
-    fun: function (x) { return ((typeof x) === 'function'); },
+    fin: finNum,
+    fun: isFun,
+    int: function (x) { return (finNum(x) && ((x % 1) === 0)); },
+    neg: function (x) { return (finNum(x) && (x < 0)); },
+    neg0: function (x) { return (finNum(x) && (x <= 0)); },
     num: function (x) { return ((typeof x) === 'number'); },
     obj: function (x) { return ((x && typeof x) === 'object'); },
+    pos: function (x) { return (finNum(x) && (x > 0)); },
+    pos0: function (x) { return (finNum(x) && (x >= 0)); },
     str: function (x) { return ((typeof x) === 'string'); },
-  };
+  });
 
   is.proto = function (x) { return (is.obj(x) && Object.getPrototypeOf(x)); };
                   //  unambiguous --^ : Object.create(false) -> TypeError
@@ -57,9 +73,20 @@ module.exports = (function setup() {
   };
 
 
+  is.nonEmpty = function (x) {
+    if (!x) { return false; }
+    var n = x.length;
+    return (Number.isFinite(n) && (n > 0));
+  };
 
 
 
 
+
+
+  Object.keys(is).forEach(function declare(c) {
+    var f = is[c];
+    if (isFun(f)) { f.criterion = c; }
+  });
   return is;
 }());

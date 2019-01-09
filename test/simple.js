@@ -4,8 +4,8 @@
 
 var is = require('typechecks-pmb'), eq = require('equal-pmb');
 
-eq(true,      is.weaklyEqual(false, 0));
-eq(true,      is.weaklyEqual(false, ''));
+eq(true,  is.weaklyEqual(false, 0));
+eq(true,  is.weaklyEqual(false, ''));
 
 
 
