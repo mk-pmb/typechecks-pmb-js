@@ -32,4 +32,7 @@ mustBe.prop = function propMustBe(t, o, p) {
 };
 
 
+mustBe.nest = mustBe('nonEmpty str');
+
+
 module.exports = mustBe;
