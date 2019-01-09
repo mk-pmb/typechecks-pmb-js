@@ -21,7 +21,7 @@ function mustBe(criteria, descr) {
       if (f(x)) { return; }
       throw new Error(d + err + f.criterion);
     });
-    return true;
+    return x;
   };
 }
 

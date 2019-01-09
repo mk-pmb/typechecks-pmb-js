@@ -10,7 +10,7 @@ function makeMustbeTest(crit) {
   var verify = mustBe(crit, 'input'),
     err = 'Error: input must be ' + crit + " but isn't ";
   return function (whyNot, x) {
-    if (!whyNot) { return eq(verify(x), true); }
+    if (!whyNot) { return eq(verify(x), x); }
     eq.err(function () { verify(x); }, err + whyNot);
   };
 }
