@@ -6,10 +6,10 @@ var is = require('./typechecks');
 
 
 function mustBe(criteria, descr) {
-  if (!criteria.forEach) {
+  if (criteria && (!criteria.forEach)) {
     criteria = (String(criteria).match(/\w+/g) || false);
   }
-  if (!criteria.length) { throw new Error('No criteria given'); }
+  if (!(criteria || false).length) { throw new Error('No criteria given'); }
   var err = ' must be ' + criteria.join(' ') + " but isn't ", rev;
   rev = criteria.slice().reverse().map(is);
   return function (d, x) {
@@ -27,8 +27,8 @@ function mustBe(criteria, descr) {
 
 
 mustBe.prop = function propMustBe(t, o, p) {
-  return mustBe((o || false)[p], t,
-    'Property "' + String(p) + '" of ' + String(o));
+  return mustBe(t)('Property "' + String(p) + '" of ' + String(o),
+    (o || false)[p]);
 };
 
 
