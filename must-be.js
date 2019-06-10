@@ -19,7 +19,7 @@ function mustBe(criteria, descr) {
     }
     rev.forEach(function (f) {
       if (f(x)) { return; }
-      throw new Error(d + err + f.criterion);
+      throw new Error(d + err + f.criterion + ': ' + is.lazyRepr(x));
     });
     return x;
   };
@@ -33,6 +33,7 @@ mustBe.prop = function propMustBe(t, o, p) {
 
 
 mustBe.nest = mustBe('nonEmpty str');
+mustBe.obj = mustBe('obj');
 
 
 module.exports = mustBe;

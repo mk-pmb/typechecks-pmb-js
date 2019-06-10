@@ -3,6 +3,7 @@
 'use strict';
 
 var mustBe = require('typechecks-pmb/must-be'), test,
+  is = require('typechecks-pmb'),
   eq = require('equal-pmb');
 
 
@@ -11,7 +12,7 @@ function makeMustbeTest(crit) {
     err = 'Error: input must be ' + crit + " but isn't ";
   return function (whyNot, x) {
     if (!whyNot) { return eq(verify(x), x); }
-    eq.err(function () { verify(x); }, err + whyNot);
+    eq.err(function () { verify(x); }, err + whyNot + ': ' + is.lazyRepr(x));
   };
 }
 

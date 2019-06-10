@@ -15,7 +15,6 @@ test('str',         true);
 test('str',         []);
 test('str',         [0]);
 
-
 test = makeTest('pos fin num');
 test('',            23.42);
 test('pos',         0);
@@ -31,6 +30,30 @@ test('int',         -5.5);
 test('int',         Number.POSITIVE_INFINITY);
 test('neg0',        2);
 
+test = makeTest('nonEmpty');
+test('nonEmpty',    '');
+test('nonEmpty',    { length: 0 });
+test('',            { length: 2 });
+test('nonEmpty',    []);
+test('',            [1, 2]);
+test('nonEmpty',    {});
+test('',            { a: 1, b: 2 });
+
+test = makeTest('empty');
+test('',            '');
+test('',            { length: 0 });
+test('empty',       { length: 2 });
+test('empty',       { length: NaN });
+test('',            []);
+test('empty',       [1, 2]);
+test('',            {});
+test('empty',       { a: 1, b: 2 });
+
+eq.err(function fail() { mustBe.obj({}); },
+  "Error: [object Object] must be obj but isn't obj: undefined");
+
+eq.err(function fail() { mustBe.nest('again, no descr'); },
+  "Error: again, no descr must be nonEmpty str but isn't str: undefined");
 
 
 

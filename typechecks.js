@@ -12,10 +12,30 @@ module.exports = (function setup() {
     return f;
   }
 
+  function q(x) {
+    var t = typeof x;
+    try {
+      x = String(x);
+      if (x === t) { return x; }
+      x = JSON.stringify(x);
+    } catch (e) {
+      x = '[cannot stringify: ' + e + ']';
+    }
+    return t + ' ' + x;
+  }
+
+  function measure(x) {
+    if (!x) { return 0; }
+    var len = x.length;
+    if (len === undefined) { return Object.keys(x).length; }
+    return len;
+  }
+
   function isFun(x) { return ((typeof x) === 'function'); }
 
   Object.assign(is, {
     ary: Array.isArray,
+    empty: function (x) { return (measure(x) === 0); },
     fin: finNum,
     fun: isFun,
     int: function (x) { return (finNum(x) && ((x % 1) === 0)); },
@@ -26,10 +46,12 @@ module.exports = (function setup() {
     pos: function (x) { return (finNum(x) && (x > 0)); },
     pos0: function (x) { return (finNum(x) && (x >= 0)); },
     str: function (x) { return ((typeof x) === 'string'); },
+    lazyRepr: q,
   });
 
   is.proto = function (x) { return (is.obj(x) && Object.getPrototypeOf(x)); };
-                  //  unambiguous --^ : Object.create(false) -> TypeError
+  // [is.proto]       unambiguous --^ : Object.create(false) -> TypeError
+
   (function (iso) {
     if (Object.getPrototypeOf) {
       iso.plain = function (x) { return (is.proto(x) === ObjPt); };
@@ -72,12 +94,11 @@ module.exports = (function setup() {
     return ((x === +x) && (x >= a) && (x <= b));
   };
 
-
   is.nonEmpty = function (x) {
-    if (!x) { return false; }
-    var n = x.length;
+    var n = measure(x);
     return (Number.isFinite(n) && (n > 0));
   };
+
 
 
 

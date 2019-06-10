@@ -1,5 +1,5 @@
 { "name": "typechecks-pmb",
-  "version": "0.190109.4",
+  "version": "0.190109.5",
   "description": "Yet another collection of typechecks.",
   "keywords": [],
 
@@ -24,7 +24,7 @@
 
   "dependencies": {},
   "devDependencies": {
-    "equal-pmb": "^0.1.16",
+    "equal-pmb": "^0.1.18",
     "usnam-pmb": "^0.2.4"
   },
 
