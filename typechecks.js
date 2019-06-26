@@ -46,24 +46,25 @@ module.exports = (function setup() {
     pos: function (x) { return (finNum(x) && (x > 0)); },
     pos0: function (x) { return (finNum(x) && (x >= 0)); },
     str: function (x) { return ((typeof x) === 'string'); },
+
+    in2: function (x, a, b) { return ((x === a) || (x === b)); },
     lazyRepr: q,
+    proto: function (x) { return (is.obj(x) && Object.getPrototypeOf(x)); },
+    // [is.proto]      unambiguous --^: Object.create(false) -> TypeError
+    pojo: function (x) { return (is.proto(x) === ObjPt); },
+    // [is.pojo] 0bj isn't old enough for plain _old_ JS object.
   });
 
-  is.proto = function (x) { return (is.obj(x) && Object.getPrototypeOf(x)); };
-  // [is.proto]       unambiguous --^ : Object.create(false) -> TypeError
 
-  (function (iso) {
-    if (Object.getPrototypeOf) {
-      iso.plain = function (x) { return (is.proto(x) === ObjPt); };
-      iso.simple = function (x) { return is.in2(is.proto(x), ObjPt, null); };
-    } else {
+  if (Object.getPrototypeOf) {
+    is.nobj = function (x) { return (is.proto(x) === null); };
+    is.p0jo = function (x) { return is.in2(is.proto(x), ObjPt, null); };
+  } else {
       // Fallible but still better than just failing. In lacking environments,
       // you have to expect shims anyway, and thus, sub-perfect accuracy.
-      iso.plain = iso.simple = function (x) { return is.clsnm(x, 'Object'); };
-    }
-  }(is.obj));
-
-  is.in2 = function (x, a, b) { return ((x === a) || (x === b)); };
+    is.nobj = is.p0jo = function (x) { return is.clsnm(x, 'Object'); };
+  }
+  is['0bj'] = is.nobj;
 
   is.ncls = function nativeClassName(obj, cmp) {
     // ATT: will identify all user-defined classes as just "Object".

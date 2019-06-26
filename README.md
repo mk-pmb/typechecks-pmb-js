@@ -14,6 +14,14 @@ API
 :TODO:
 
 
+Release Notes
+-------------
+
+* v0.190627.0: The methods of `is.obj` have been removed because the name
+  `plain` was misleading. Use `0bj`/`nobj`, `pojo` or `p0jo` instead.
+
+
+
 <!--#toc stop="scan" -->
 
 
