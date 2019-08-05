@@ -2,7 +2,14 @@
 /* -*- tab-width: 2 -*- */
 'use strict';
 
-var is = require('./typechecks');
+var is = require('./typechecks'), repr = is.lazyRepr;
+
+
+function fail(d, c, x) {
+  var e = new Error(d + ' must be ' + c + ': ' + repr(x));
+  e.name = 'AssertionError';
+  throw e;
+}
 
 
 function mustBe(criteria, descr) {
@@ -10,7 +17,7 @@ function mustBe(criteria, descr) {
     criteria = (String(criteria).match(/\w+/g) || false);
   }
   if (!(criteria || false).length) { throw new Error('No criteria given'); }
-  var err = ' must be ' + criteria.join(' ') + " but isn't ", rev;
+  var err = criteria.join(' ') + " but isn't ", rev;
   rev = criteria.slice().reverse().map(is);
   return function (d, x) {
     if (descr) {
@@ -19,7 +26,7 @@ function mustBe(criteria, descr) {
     }
     rev.forEach(function (f) {
       if (f(x)) { return; }
-      throw new Error(d + err + f.criterion + ': ' + is.lazyRepr(x));
+      fail(d, err + f.criterion, x);
     });
     return x;
   };
@@ -34,6 +41,30 @@ mustBe.prop = function propMustBe(t, o, p) {
 
 mustBe.nest = mustBe('nonEmpty str');
 mustBe.obj = mustBe('obj');
+
+
+mustBe.oneOf = function mustBeOneOf(whitelist, descr) {
+  var wlDescr = whitelist;
+  if (wlDescr.values) { wlDescr = Array.from(whitelist.values()); }
+  wlDescr = 'one of [' + wlDescr.map(repr).join(', ') + ']';
+  function chk(d, x) {
+    if (descr) {
+      x = d;
+      d = descr;
+    }
+    if (whitelist.has) {
+      // use a set when you want to allow NaN!
+      if (whitelist.has(x)) { return x; }
+    } else {
+      if (whitelist.indexOf(x) >= 0) { return x; }
+    }
+    fail(d, wlDescr, x);
+  }
+  chk.whitelist = whitelist;
+  return chk;
+};
+
+
 
 
 module.exports = mustBe;

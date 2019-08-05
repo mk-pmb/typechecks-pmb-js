@@ -17,6 +17,9 @@ module.exports = (function setup() {
     try {
       x = String(x);
       if (x === t) { return x; }
+      if (t === 'function') {
+        return x.split(/\s*(\{|\))/).slice(0, 2).join('');
+      }
       x = JSON.stringify(x);
     } catch (e) {
       x = '[cannot stringify: ' + e + ']';

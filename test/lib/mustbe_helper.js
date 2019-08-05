@@ -2,19 +2,19 @@
 /* -*- tab-width: 2 -*- */
 'use strict';
 
-var mustBe = require('typechecks-pmb/must-be'), test,
+var EX, mustBe = require('typechecks-pmb/must-be'), test,
   is = require('typechecks-pmb'),
   eq = require('equal-pmb');
 
 
-function makeMustbeTest(crit) {
+EX = function makeMustbeTest(crit) {
   var verify = mustBe(crit, 'input'),
-    err = 'Error: input must be ' + crit + " but isn't ";
+    err = 'AssertionError: input must be ' + crit + " but isn't ";
   return function (whyNot, x) {
     if (!whyNot) { return eq(verify(x), x); }
     eq.err(function () { verify(x); }, err + whyNot + ': ' + is.lazyRepr(x));
   };
-}
+};
 
 
-module.exports = makeMustbeTest;
+module.exports = EX;
