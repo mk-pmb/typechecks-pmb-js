@@ -5,9 +5,9 @@
 
 var mustBe = require('typechecks-pmb/must-be'), test,
   makeTest = require('./lib/mustbe_helper'),
-  eq = require('equal-pmb');
+  mustFail = require('equal-pmb').err;
 
-function assErr(f) { eq.err(f, assErr.rx); }
+function assErr(f) { mustFail(f, assErr.rx); }
 assErr.rx = /^AssertionError: /;
 
 test = makeTest('nonEmpty str');
@@ -53,15 +53,15 @@ test('empty',       [1, 2]);
 test('',            {});
 test('empty',       { a: 1, b: 2 });
 
-eq.err(function fail() { mustBe.obj({}); },
+mustFail(function fail() { mustBe.obj({}); },
   "AssertionError: [object Object] must be obj " +
   "but isn't obj: undefined");
 
-eq.err(function fail() { mustBe.nest('again, no descr'); },
+mustFail(function fail() { mustBe.nest('again, no descr'); },
   "AssertionError: again, no descr must be nonEmpty str " +
   "but isn't str: undefined");
 
-test = mustBe.oneOf([Boolean, null, NaN], 'dummy');
+test = mustBe.oneOf([Boolean, null, NaN], 'input');
 assErr(function fail() { test(123); });
 assErr(function fail() { test(true); });
 assErr(function fail() { test(false); });
@@ -69,13 +69,24 @@ test(Boolean);
 test(null);
 assErr(function fail() { test(NaN); });   // compare with next test
 
-test = mustBe.oneOf(new Set([Boolean, null, NaN]), 'dummy');
+test = mustBe.oneOf(new Set([Boolean, null, NaN]), 'input');
 assErr(function fail() { test(123); });
 assErr(function fail() { test(true); });
 assErr(function fail() { test(false); });
 test(Boolean);
 test(null);
 test(NaN);      // with Set, NaN can be found.
+
+test = makeTest([ ['same', NaN] ], 'same(number "NaN")');
+test('',      NaN);
+test('same',  'NaN');
+
+test = makeTest([ ['same', 'NaN' ] ], 'same(string "NaN")');
+test('',      'NaN');
+test('same',  NaN);
+
+test = mustBe.same([], 'non-number');
+assErr(function fail() { test([]); });
 
 
 

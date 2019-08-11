@@ -7,9 +7,9 @@ var EX, mustBe = require('typechecks-pmb/must-be'), test,
   eq = require('equal-pmb');
 
 
-EX = function makeMustbeTest(crit) {
+EX = function makeMustbeTest(crit, crExpl) {
   var verify = mustBe(crit, 'input'),
-    err = 'AssertionError: input must be ' + crit + " but isn't ";
+    err = 'AssertionError: input must be ' + (crExpl || crit) + " but isn't ";
   return function (whyNot, x) {
     if (!whyNot) { return eq(verify(x), x); }
     eq.err(function () { verify(x); }, err + whyNot + ': ' + is.lazyRepr(x));

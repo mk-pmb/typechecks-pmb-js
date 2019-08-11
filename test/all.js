@@ -8,7 +8,7 @@ require('./simple.js');         //= "+OK simple tests passed."
 require('./native-clsn.js');    //= "+OK ncls tests passed."
 require('./proto.js');          //= "+OK proto tests passed."
 require('./mustbe_simple.js');  //= "+OK mustbe_simple tests passed."
-// require('./mustbe_param.js');   //= "+OK mustbe_param tests passed."
+require('./mustbe_rulesdict.js');  //= "+OK mustbe_simple tests passed."
 
 
 
