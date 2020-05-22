@@ -50,6 +50,9 @@ mustBe.prop = function propMustBe(t, o, p) {
 };
 
 
+mustBe.finNum = mustBe('fin num');
+mustBe.fun = mustBe('fun');
+mustBe.near = mustBe('nonEmpty ary');
 mustBe.nest = mustBe('nonEmpty str');
 mustBe.obj = mustBe('obj');
 
