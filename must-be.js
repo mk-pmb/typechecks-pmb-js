@@ -22,15 +22,39 @@ function maybeDescrArg(d, f) {
 }
 
 
+function decodeQueryParts(q) {
+  return q.replace(/\+/g, ' ').split(/&/).map(decodeURIComponent);
+}
+
+
+function decodeCritArgs(spec) {
+  var m = decodeCritArgs.rgx.exec(spec), crit, sep, args, decoder;
+  if (!m) { return spec; }
+  crit = m[1];
+  sep = m[2];
+  args = spec.slice(m[0].length);
+  decoder = decodeCritArgs[sep];
+  args = decoder(args);
+  spec = [crit].concat(args);
+  return spec;
+}
+Object.assign(decodeCritArgs, {
+  rgx: /^(\w+)(:|\&|\?)/,
+  ':': JSON.parse,
+  '&': decodeQueryParts,
+  // '?': qrystr, // not (yet?) worth the added complexity.
+});
+
+
 function makeNamedCrit(crit) {
-  var f = is(crit), n = (f.descr || String(crit));
+  var f = is(decodeCritArgs(crit)), n = (f.descr || String(crit));
   return { f: f, n: n };
 }
 
 
 function mustBe(criteria, descr) {
   if (criteria && (!criteria.forEach)) {
-    criteria = (String(criteria).match(/\w+/g) || false);
+    criteria = (String(criteria).match(/\S+/g) || false);
   }
   if (!(criteria || false).length) { throw new Error('No criteria given'); }
   var rev = criteria.slice().reverse().map(makeNamedCrit);
