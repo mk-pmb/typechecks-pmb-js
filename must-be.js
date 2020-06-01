@@ -52,18 +52,41 @@ function makeNamedCrit(crit) {
 }
 
 
+function reverseSplitByAndMap(list, sep, convert) {
+  var groups = [], curGr = [];
+  function add(item) {
+    if (item === sep) {
+      if (curGr.length) { groups.push(curGr.reverse()); }
+      curGr = [];
+      return;
+    }
+    curGr.push(convert(item));
+  }
+  list.forEach(add);
+  add(sep);
+  return groups;
+}
+
+
 function mustBe(criteria, descr) {
   if (criteria && (!criteria.forEach)) {
     criteria = (String(criteria).match(/\S+/g) || false);
   }
   if (!(criteria || false).length) { throw new Error('No criteria given'); }
-  var rev = criteria.slice().reverse().map(makeNamedCrit);
+  var revCritGroups = reverseSplitByAndMap(criteria, '|', makeNamedCrit);
   return maybeDescrArg(descr, function expect(d, x) {
-    rev.forEach(function (c) {
-      if (c.f(x)) { return; }
-      fail(d, criteria, c.n, x);
+    var done, why, nope = [];
+    revCritGroups.forEach(function (cgr) {
+      if (done) { return; }
+      why = null;
+      cgr.forEach(function (c) {
+        if (why || c.f(x)) { return; }
+        why = c.n;
+      });
+      if (why) { nope.push(why); } else { done = true; }
     });
-    return x;
+    if (done) { return x; }
+    fail(d, criteria, nope.join(' | '), x);
   });
 }
 

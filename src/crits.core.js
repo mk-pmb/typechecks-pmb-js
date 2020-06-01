@@ -17,6 +17,7 @@ defMtd.multi(EX, [
   function fun(x) { return ((typeof x) === 'function'); },
   function str(x) { return ((typeof x) === 'string'); },
   function symb(x) { return ((typeof x) === 'symbol'); },
+  function nul(x) { return (x === null); },
 
   function num(x) { return ((typeof x) === 'number'); },
   function int(x) { return (finNum(x) && ((x % 1) === 0)); },
@@ -24,6 +25,7 @@ defMtd.multi(EX, [
   function neg0(x) { return (finNum(x) && (x <= 0)); },
   function pos(x) { return (finNum(x) && (x > 0)); },
   function pos0(x) { return (finNum(x) && (x >= 0)); },
+  function zero(x) { return (x === 0); },
 
   // ##### BEGIN Object checks helper functions #####
   function in2(x, a, b) { return ((x === a) || (x === b)); },

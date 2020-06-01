@@ -85,8 +85,20 @@ test = makeTest([ ['same', 'NaN' ] ], 'same(string "NaN")');
 test('',      'NaN');
 test('same',  NaN);
 
-test = mustBe.same([], 'non-number');
+test = mustBe.same([], "the world's very best empty array");
 assErr(function fail() { test([]); });
+
+test = mustBe('nul | nonEmpty str', 'password hash');
+test(null);
+test('$6$SaltSalt$HashHashHash');
+test('!');      // locked linux account
+test('true');   // very exotic hash algo ;-)
+test('false');
+assErr(function fail() { test(''); });
+assErr(function fail() { test(0); });
+assErr(function fail() { test(true); });
+assErr(function fail() { test(false); });
+assErr(function fail() { test(undefined); });
 
 
 
