@@ -13,11 +13,14 @@ EX = {
 };
 
 defMtd.multi(EX, [
-  function bool(x) { return ((typeof x) === 'boolean'); },
   function fun(x) { return ((typeof x) === 'function'); },
   function str(x) { return ((typeof x) === 'string'); },
   function symb(x) { return ((typeof x) === 'symbol'); },
   function nul(x) { return (x === null); },
+  function bool(x) { return ((typeof x) === 'boolean'); },
+  function tru(x) { return (x === true); },
+  function fal(x) { return (x === false); },
+  function tri(x) { return ((x === true) || (x === false) || (x === null)); },
 
   function num(x) { return ((typeof x) === 'number'); },
   function int(x) { return (finNum(x) && ((x % 1) === 0)); },
