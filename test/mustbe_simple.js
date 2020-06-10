@@ -11,47 +11,47 @@ function assErr(f) { mustFail(f, assErr.rx); }
 assErr.rx = /^AssertionError: /;
 
 test = makeTest('nonEmpty str');
-test('',            'hello');
-test('nonEmpty',    '');
-test('str',         undefined);
-test('str',         null);
-test('str',         true);
-test('str',         []);
-test('str',         [0]);
+test({ ok: 'hello' });
+test({ isNot: 'nonEmpty',   nope: '' });
+test({ isNot: 'str',        nope: undefined });
+test({ isNot: 'str',        nope: null });
+test({ isNot: 'str',        nope: true });
+test({ isNot: 'str',        nope: [] });
+test({ isNot: 'str',        nope: [0] });
 
 test = makeTest('pos fin num');
-test('',            23.42);
-test('pos',         0);
-test('pos',         -23.42);
-test('fin',         NaN);
-test('fin',         Number.POSITIVE_INFINITY);
-test('num',         '23');
+test({ ok: 23.42 });
+test({ isNot: 'pos',        nope: 0 });
+test({ isNot: 'pos',        nope: -23.42 });
+test({ isNot: 'fin',        nope: NaN });
+test({ isNot: 'fin',        nope: Number.POSITIVE_INFINITY });
+test({ isNot: 'num',        nope: '23' });
 
 test = makeTest('neg0 int');
-test('',            0);
-test('',            -5);
-test('int',         -5.5);
-test('int',         Number.POSITIVE_INFINITY);
-test('neg0',        2);
+test({ ok: 0 });
+test({ ok: -5 });
+test({ isNot: 'int',        nope: -5.5 });
+test({ isNot: 'int',        nope: Number.POSITIVE_INFINITY });
+test({ isNot: 'neg0',       nope: 2 });
 
 test = makeTest('nonEmpty');
-test('nonEmpty',    '');
-test('nonEmpty',    { length: 0 });
-test('',            { length: 2 });
-test('nonEmpty',    []);
-test('',            [1, 2]);
-test('nonEmpty',    {});
-test('',            { a: 1, b: 2 });
+test({ isNot: 'nonEmpty',   nope: '' });
+test({ isNot: 'nonEmpty',   nope: { length: 0 } });
+test({ ok: { length: 2 } });
+test({ isNot: 'nonEmpty',   nope: [] });
+test({ ok: [1, 2] });
+test({ isNot: 'nonEmpty',   nope: {} });
+test({ ok: { a: 1, b: 2 } });
 
 test = makeTest('empty');
-test('',            '');
-test('',            { length: 0 });
-test('empty',       { length: 2 });
-test('empty',       { length: NaN });
-test('',            []);
-test('empty',       [1, 2]);
-test('',            {});
-test('empty',       { a: 1, b: 2 });
+test({ ok: '' });
+test({ ok: { length: 0 } });
+test({ isNot: 'empty',      nope: { length: 2 } });
+test({ isNot: 'empty',      nope: { length: NaN } });
+test({ ok: [] });
+test({ isNot: 'empty',      nope: [1, 2] });
+test({ ok: {} });
+test({ isNot: 'empty',      nope: { a: 1, b: 2 } });
 
 mustFail(function fail() { mustBe.obj({}); },
   "AssertionError: [object Object] must be obj " +
@@ -78,27 +78,27 @@ test(null);
 test(NaN);      // with Set, NaN can be found.
 
 test = makeTest([ ['same', NaN] ], 'same(number "NaN")');
-test('',      NaN);
-test('same',  'NaN');
+test({ ok: NaN });
+test({ isNot: 'same',  nope: 'NaN' });
 
 test = makeTest([ ['same', 'NaN' ] ], 'same(string "NaN")');
-test('',      'NaN');
-test('same',  NaN);
+test({ ok: 'NaN' });
+test({ isNot: 'same',  nope: NaN });
 
 test = mustBe.same([], "the world's very best empty array");
 assErr(function fail() { test([]); });
 
-test = mustBe('nul | nonEmpty str', 'password hash');
-test(null);
-test('$6$SaltSalt$HashHashHash');
-test('!');      // locked linux account
-test('true');   // very exotic hash algo ;-)
-test('false');
-assErr(function fail() { test(''); });
-assErr(function fail() { test(0); });
-assErr(function fail() { test(true); });
-assErr(function fail() { test(false); });
-assErr(function fail() { test(undefined); });
+test = makeTest('nul | nonEmpty str');
+test({ ok: null });
+test({ ok: '$6$SaltSalt$HashHashHash' });
+test({ ok: '!' });      // locked linux account
+test({ ok: 'true' });   // very exotic hash algo ;-)
+test({ ok: 'false' });
+test({ isNot: 'nul | nonEmpty', nope: '' });
+test({ isNot: 'nul | str',      nope: 0 });
+test({ isNot: 'nul | str',      nope: true });
+test({ isNot: 'nul | str',      nope: false });
+test({ isNot: 'nul | str',      nope: undefined });
 
 
 

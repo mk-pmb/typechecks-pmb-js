@@ -8,11 +8,16 @@ var EX, mustBe = require('typechecks-pmb/must-be'), test,
 
 
 EX = function makeMustbeTest(crit, crExpl) {
-  var verify = mustBe(crit, 'input'),
+  var ck = mustBe(crit, 'input'),
     err = 'AssertionError: input must be ' + (crExpl || crit) + " but isn't ";
-  return function (whyNot, x) {
-    if (!whyNot) { return eq(verify(x), x); }
-    eq.err(function () { verify(x); }, err + whyNot + ': ' + is.lazyRepr(x));
+  return function verify(spec) {
+    var why = spec.isNot, x;
+    if (why) {
+      x = spec.nope;
+      return eq.err(function () { ck(x); }, err + why + ': ' + is.lazyRepr(x));
+    }
+    x = spec.ok;
+    return eq(ck(x), x);
   };
 };
 
