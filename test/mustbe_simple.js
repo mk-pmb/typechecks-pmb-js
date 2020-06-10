@@ -100,6 +100,32 @@ test({ isNot: 'nul | str',      nope: true });
 test({ isNot: 'nul | str',      nope: false });
 test({ isNot: 'nul | str',      nope: undefined });
 
+test = makeTest('obj');
+test({ ok: {} });
+test({ ok: [] });
+test({ ok: Object.create(null) });
+test({ isNot: 'obj',    nope: Function });
+test({ isNot: 'obj',    nope: '' });
+
+test = makeTest('pojo');
+test({ ok: {} });
+test({ isNot: 'pojo',   nope: [] });
+test({ isNot: 'pojo',   nope: Object.create(null) });
+test({ isNot: 'pojo',   nope: Function });
+test({ isNot: 'pojo',   nope: '' });
+
+test = makeTest('nobj');
+test({ isNot: 'nobj',   nope: {} });
+test({ isNot: 'nobj',   nope: [] });
+test({ ok: Object.create(null) });
+test({ isNot: 'nobj',   nope: Function });
+
+test = makeTest('dictObj');
+test({ ok: {} });
+test({ isNot: 'dictObj',  nope: [] });
+test({ ok: Object.create(null) });
+test({ isNot: 'dictObj',  nope: Function });
+
 
 
 

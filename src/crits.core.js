@@ -49,6 +49,7 @@ defMtd.multi(EX, [
 ]);
 
 defMtd.multi(EX, Object.getPrototypeOf ? [
+  function dictObj(x) { return (EX.obj(x) && (!EX.ary(x))); },
   function nobj(x) { return (EX.proto(x) === null); },
   function p0jo(x) { return EX.in2(EX.proto(x), ObjPt, null); },
 ] : [
