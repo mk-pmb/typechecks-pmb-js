@@ -97,11 +97,22 @@ mustBe.prop = function propMustBe(t, o, p) {
 };
 
 
+mustBe.getter = function getMustBe(get, descr, rule, key, dflt) {
+  return mustBe(rule)('Property "' + String(key) + '" of ' + String(descr),
+    get(key, dflt));
+};
+
+
 mustBe.finNum = mustBe('fin num');
-mustBe.fun = mustBe('fun');
 mustBe.near = mustBe('nonEmpty ary');
 mustBe.nest = mustBe('nonEmpty str');
-mustBe.obj = mustBe('obj');
+[
+  'ary',
+  'bool',
+  'dictObj',
+  'fun',
+  'obj',
+].forEach(function shortcut(rule) { mustBe[rule] = mustBe(rule); });
 
 
 mustBe.withArgs = function mustBeWithArgs(crit, descr) {
