@@ -92,14 +92,12 @@ function mustBe(criteria, descr) {
 
 
 mustBe.prop = function propMustBe(t, o, p) {
-  return mustBe(t)('Property "' + String(p) + '" of ' + String(o),
-    (o || false)[p]);
+  return mustBe(t)(String(o) + ': "' + String(p) + '"', (o || false)[p]);
 };
 
 
 mustBe.getter = function getMustBe(get, descr, rule, key, dflt) {
-  return mustBe(rule)('Property "' + String(key) + '" of ' + String(descr),
-    get(key, dflt));
+  return mustBe(rule)(descr + ': "' + String(key) + '"', get(key, dflt));
 };
 
 
