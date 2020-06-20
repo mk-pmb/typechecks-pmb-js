@@ -4,7 +4,8 @@
 
 var is = require('./typechecks'), repr = require('./src/lazyrepr'),
   explainCrit = require('./src/explain-crit'),
-  oneParamCrit = require('./src/crits.1param');
+  oneParamCrit = require('./src/crits.1param'),
+  arSlc = Array.prototype.slice, objHas = Object.prototype.hasOwnProperty;
 
 
 function fail(descr, allCrit, failCrit, x) {
@@ -24,6 +25,11 @@ function maybeDescrArg(d, f) {
 
 function decodeQueryParts(q) {
   return q.replace(/\+/g, ' ').split(/&/).map(decodeURIComponent);
+}
+
+
+function bindArgs(f, a, c) {
+  return f.bind.apply(f, [c].concat(arSlc.call(a)));
 }
 
 
@@ -91,8 +97,10 @@ function mustBe(criteria, descr) {
 }
 
 
-mustBe.prop = function propMustBe(t, o, p) {
-  return mustBe(t)(String(o) + ': "' + String(p) + '"', (o || false)[p]);
+mustBe.prop = function propMustBe(o, c, p, d) {
+  if (arguments.length <= 2) { return bindArgs(propMustBe, arguments); }
+  var v = ((o && objHas.call(o, p)) ? o[p] : d);
+  return mustBe(c)(String(o) + ': "' + String(p) + '"', v);
 };
 
 

@@ -135,6 +135,5 @@ test({ isNot: 'dictObj',  nope: Function });
 
 
 
-
 console.log("+OK mustbe_simple tests passed.");
   //= "+OK mustbe_simple tests passed."
