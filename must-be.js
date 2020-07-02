@@ -28,8 +28,8 @@ function decodeQueryParts(q) {
 }
 
 
-function bindArgs(f, a, c) {
-  return f.bind.apply(f, [c].concat(arSlc.call(a)));
+function bindArgs(func, args, ctx) {
+  return func.bind.apply(func, [ctx].concat(arSlc.call(args)));
 }
 
 
@@ -97,11 +97,15 @@ function mustBe(criteria, descr) {
 }
 
 
-mustBe.prop = function propMustBe(o, c, p, d) {
-  if (arguments.length <= 2) { return bindArgs(propMustBe, arguments); }
+mustBe.tProp = function propMustBe(t, o, c, p, d) {
+  // t: topic prefix (description of object)
+  // o: object, c: criterion, p: property name, d: default value
+  if (arguments.length <= 3) { return bindArgs(propMustBe, arguments); }
+  t = String(t || (String(o) + ': '));
   var v = ((o && objHas.call(o, p)) ? o[p] : d);
-  return mustBe(c)(String(o) + ': "' + String(p) + '"', v);
+  return mustBe(c)(t + '"' + String(p) + '"', v);
 };
+mustBe.prop = mustBe.tProp.bind(null, null);
 
 
 mustBe.getter = function getMustBe(get, descr, rule, key, dflt) {
