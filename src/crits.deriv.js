@@ -16,10 +16,15 @@ EX = {};
 defMtd.multi(EX, [
 
   function empty(x) { return (measure(x) === 0); },
+
   function nonEmpty(x) {
     var n = measure(x);
     return (Number.isFinite(n) && (n > 0));
   },
+
+  function minLength(x, m) { return (measure(x) >= m); },
+  function maxLength(x, m) { return (measure(x) <= m); },
+  function ofLength(x, l) { return (measure(x) === l); },
 
 ]);
 

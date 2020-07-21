@@ -126,6 +126,31 @@ test({ isNot: 'dictObj',  nope: [] });
 test({ ok: Object.create(null) });
 test({ isNot: 'dictObj',  nope: Function });
 
+test = makeTest('ofLength:3');
+test({ ok: 'abc' });
+test({ ok: [4, 5, 6] });
+test({ isNot: 'ofLength',  nope: 'ab' });
+test({ isNot: 'ofLength',  nope: [4, 5] });
+test({ isNot: 'ofLength',  nope: 'abcd' });
+test({ isNot: 'ofLength',  nope: [4, 5, 6, 7] });
+
+test = makeTest('minLength:3');
+test({ ok: 'abc' });
+test({ ok: [4, 5, 6] });
+test({ isNot: 'minLength',  nope: 'ab' });
+test({ isNot: 'minLength',  nope: [4, 5] });
+test({ ok: 'abcd' });
+test({ ok: [4, 5, 6, 7] });
+
+test = makeTest('maxLength:3');
+test({ ok: 'abc' });
+test({ ok: [4, 5, 6] });
+test({ ok: 'ab' });
+test({ ok: [4, 5] });
+test({ isNot: 'maxLength',  nope: 'abcd' });
+test({ isNot: 'maxLength',  nope: [4, 5, 6, 7] });
+
+
 
 
 
