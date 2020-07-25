@@ -6,6 +6,8 @@ var EX, defMtd = require('./defmtd'),
   ObjPt = Object.prototype,
   finNum = Number.isFinite;
 
+function orf(x) { return (x || false); }
+
 EX = {
   ary: Array.isArray,
   fin: finNum,
@@ -46,6 +48,8 @@ defMtd.multi(EX, [
   function obj(x) { return ((x && typeof x) === 'object'); },
   function pojo(x) { return (EX.proto(x) === ObjPt); },
   // [pojo] 0bj isn't old enough for plain _old_ JS object.
+
+  function thenable(x) { return EX.fun(orf(x).then); },
 ]);
 
 defMtd.multi(EX, Object.getPrototypeOf ? [

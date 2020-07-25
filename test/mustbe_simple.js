@@ -150,6 +150,12 @@ test({ ok: [4, 5] });
 test({ isNot: 'maxLength',  nope: 'abcd' });
 test({ isNot: 'maxLength',  nope: [4, 5, 6, 7] });
 
+test = makeTest('thenable');
+test({ isNot: 'thenable',  nope: {} });
+test({ isNot: 'thenable',  nope: String });
+test({ isNot: 'thenable',  nope: 5 });
+test({ ok: { then: String } });
+
 
 
 
