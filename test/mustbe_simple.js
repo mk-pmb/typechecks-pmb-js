@@ -19,6 +19,11 @@ test({ isNot: 'str',        nope: true });
 test({ isNot: 'str',        nope: [] });
 test({ isNot: 'str',        nope: [0] });
 
+test = makeTest('undef');
+test({ ok: undefined });
+test({ isNot: 'undef',      nope: 2 });
+test({ isNot: 'undef',      nope: null });
+
 test = makeTest('pos fin num');
 test({ ok: 23.42 });
 test({ isNot: 'pos',        nope: 0 });
