@@ -131,6 +131,9 @@ test({ isNot: 'dictObj',  nope: [] });
 test({ ok: Object.create(null) });
 test({ isNot: 'dictObj',  nope: Function });
 
+mustFail(function fail() { makeTest('length:3'); },
+  'Error: Unsupported criterion: length');
+
 test = makeTest('ofLength:3');
 test({ ok: 'abc' });
 test({ ok: [4, 5, 6] });

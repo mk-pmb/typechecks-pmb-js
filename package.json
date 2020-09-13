@@ -23,6 +23,7 @@
   },
 
   "dependencies": {
+    "getown": "^1.0.0"
   },
   "devDependencies": {
     "equal-pmb": "^0.1.20",

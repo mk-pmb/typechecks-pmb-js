@@ -3,9 +3,10 @@
 'use strict';
 
 var is = require('./typechecks'), repr = require('./src/lazyrepr'),
+  getOwn = require('getown'),
   explainCrit = require('./src/explain-crit'),
   oneParamCrit = require('./src/crits.1param'),
-  arSlc = Array.prototype.slice, objHas = Object.prototype.hasOwnProperty;
+  arSlc = Array.prototype.slice;
 
 
 function fail(descr, allCrit, failCrit, x) {
@@ -102,8 +103,7 @@ mustBe.tProp = function propMustBe(t, o, c, p, d) {
   // o: object, c: criterion, p: property name, d: default value
   if (arguments.length <= 3) { return bindArgs(propMustBe, arguments); }
   t = String(t || (String(o) + ': '));
-  var v = ((o && objHas.call(o, p)) ? o[p] : d);
-  return mustBe(c)(t + '"' + String(p) + '"', v);
+  return mustBe(c)(t + '"' + String(p) + '"', getOwn(o, p, d));
 };
 mustBe.prop = mustBe.tProp.bind(null, null);
 

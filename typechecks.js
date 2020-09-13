@@ -6,6 +6,7 @@ var is, defMtd = require('./src/defmtd'),
   coreCrit = require('./src/crits.core'),
   derivCrit = require('./src/crits.deriv'),
   oneParamCrit = require('./src/crits.1param'),
+  getOwn = require('getown'),
   q = require('./src/lazyrepr');
 
 function makeIsWithArgs(args) {
@@ -21,7 +22,7 @@ function makeIsWithArgs(args) {
 
 is = function is(crit) {
   if (!crit) { throw new Error('No criterion given'); }
-  var f = (makeIsWithArgs(crit) || is[crit]);
+  var f = is.ifFunc(makeIsWithArgs(crit) || getOwn(is, crit));
   if (!f) { throw new Error('Unsupported criterion: ' + crit); }
   return f;
 };
