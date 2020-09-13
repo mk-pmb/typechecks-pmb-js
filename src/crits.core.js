@@ -14,6 +14,15 @@ EX = {
   nan: (Number.isNaN || function isNaN(x) { return (EX.num(x) && isNaN(x)); }),
 };
 
+function maybeUnsupp(c, f) {
+  EX[c] = (f || function unsupp() {
+    throw new Error('This criterion is not supported on this platform: ' + c);
+  });
+}
+function canHaz(t) { return t !== 'undefined'; } // cheat jslint
+maybeUnsupp('buf', canHaz(typeof Buffer) && Buffer.isBuffer);
+
+
 defMtd.multi(EX, [
   function fun(x) { return ((typeof x) === 'function'); },
   function str(x) { return ((typeof x) === 'string'); },

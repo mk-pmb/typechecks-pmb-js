@@ -164,6 +164,12 @@ test({ isNot: 'thenable',  nope: String });
 test({ isNot: 'thenable',  nope: 5 });
 test({ ok: { then: String } });
 
+test = makeTest('buf');
+test({ isNot: 'buf',  nope: {} });
+test({ isNot: 'buf',  nope: String });
+test({ isNot: 'buf',  nope: '' });
+test({ ok: Buffer.from('yes') });
+
 
 
 
