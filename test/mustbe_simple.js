@@ -4,6 +4,7 @@
 'use strict';
 
 var mustBe = require('typechecks-pmb/must-be'), test,
+  undef2obj = 'TypeError: Cannot convert undefined or null to object',
   makeTest = require('./lib/mustbe_helper'),
   mustFail = require('equal-pmb').err;
 
@@ -169,6 +170,18 @@ test({ isNot: 'buf',  nope: {} });
 test({ isNot: 'buf',  nope: String });
 test({ isNot: 'buf',  nope: '' });
 test({ ok: Buffer.from('yes') });
+
+
+mustBe.keyless('A fresh empty object', {});
+mustBe.keyless('An empty string', '');
+mustBe.keyless('Literal zero', 0);
+mustBe.keyless('Negative five', -5);
+mustBe.keyless('The truth', true);
+mustFail(function fail() { mustBe.keyless('foo dict', { foo: 1 }); },
+  "AssertionError: foo dict must be keyless but isn't keyless: " +
+  'object "[object Object]"');
+mustFail(function fail() { mustBe.keyless('undef'); }, undef2obj);
+mustFail(function fail() { mustBe.keyless('null', null); }, undef2obj);
 
 
 

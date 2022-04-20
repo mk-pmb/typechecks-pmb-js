@@ -120,7 +120,9 @@ mustBe.nest = mustBe('nonEmpty str');
   'ary',
   'bool',
   'dictObj',
+  'empty',
   'fun',
+  'keyless',
   'obj',
 ].forEach(function shortcut(rule) { mustBe[rule] = mustBe(rule); });
 

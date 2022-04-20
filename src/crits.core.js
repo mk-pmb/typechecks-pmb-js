@@ -40,6 +40,7 @@ defMtd.multi(EX, [
   function pos(x) { return (finNum(x) && (x > 0)); },
   function pos0(x) { return (finNum(x) && (x >= 0)); },
   function zero(x) { return (x === 0); },
+  function keyless(x) { return !Object.keys(x).length; },
 
   // ##### BEGIN Object checks helper functions #####
   function in2(x, a, b) { return ((x === a) || (x === b)); },
