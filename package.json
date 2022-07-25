@@ -1,5 +1,5 @@
 { "name": "typechecks-pmb",
-  "version": "0.200620.5",
+  "version": "0.200620.6",
   "description": "Yet another collection of typechecks.",
   "keywords": [],
 
@@ -15,6 +15,12 @@
 
   "private": false, "license": "ISC",
 
+  "exports": {
+    ".": "./vtry.mjs",
+    "./must-be": "./must-be.js",
+    "./must-be.js": "./must-be.js",
+    "./package.json": "./package.json"
+  },
   "main": "typechecks.js",
   "scripts": { "test": "nodejs test/all.js" },
   "directories": {
