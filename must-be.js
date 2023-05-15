@@ -152,6 +152,22 @@ function makeRulesDict(rules) {
 mustBe.makeRulesDict = makeRulesDict;
 
 
+mustBe.enumDict = function makeEnumDict(dict, dfKey, dfDescr) {
+  if (is.nullish(dfKey)) { dfKey = ''; }
+  var m = mustBe.oneOf(Object.keys(dict)), f;
+  f = function lookup(k, descr) {
+    if (is.nullish(k)) { k = dfKey; }
+    m(descr || dfDescr || 'Value', k);
+    return dict[k];
+  };
+  return f;
+};
+
+
+
+
+
+
 
 
 

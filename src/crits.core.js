@@ -28,6 +28,7 @@ defMtd.multi(EX, [
   function str(x) { return ((typeof x) === 'string'); },
   function symb(x) { return ((typeof x) === 'symbol'); },
   function nul(x) { return (x === null); },
+  function nullish(x) { return (x === null) || (x === undefined); },
   function bool(x) { return ((typeof x) === 'boolean'); },
   function tru(x) { return (x === true); },
   function fal(x) { return (x === false); },
