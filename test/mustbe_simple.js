@@ -180,8 +180,8 @@ mustBe.keyless('The truth', true);
 mustFail(function fail() { mustBe.keyless('foo dict', { foo: 1 }); },
   "AssertionError: foo dict must be keyless but isn't keyless: " +
   'object "[object Object]"');
-mustFail(function fail() { mustBe.keyless('undef'); }, undef2obj);
-mustFail(function fail() { mustBe.keyless('null', null); }, undef2obj);
+mustBe.keyless('undef');
+mustBe.keyless('null', null);
 
 
 
