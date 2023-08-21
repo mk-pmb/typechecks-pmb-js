@@ -99,6 +99,13 @@ function mustBe(criteria, descr) {
 }
 
 
+mustBe.IMPL = {
+
+  installShorthands,
+  // ^- For use in libraries that wrap the mustBe function, e.g. objpop.
+
+};
+
 mustBe.tProp = function propMustBe(t, o, c, p, d) {
   // t: topic prefix (description of object)
   // o: object, c: criterion, p: property name, d: default value
