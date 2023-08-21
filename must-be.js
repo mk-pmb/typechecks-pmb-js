@@ -6,6 +6,7 @@ var is = require('./typechecks'), repr = require('./src/lazyrepr'),
   getOwn = require('getown'),
   explainCrit = require('./src/explain-crit'),
   oneParamCrit = require('./src/crits.1param'),
+  installShorthands = require('./src/shorthands'),
   arSlc = Array.prototype.slice;
 
 
@@ -113,18 +114,8 @@ mustBe.getter = function getMustBe(get, descr, rule, key, dflt) {
 };
 
 
-mustBe.finNum = mustBe('fin num');
-mustBe.near = mustBe('nonEmpty ary');
-mustBe.nest = mustBe('nonEmpty str');
-[
-  'ary',
-  'bool',
-  'dictObj',
-  'empty',
-  'fun',
-  'keyless',
-  'obj',
-].forEach(function shortcut(rule) { mustBe[rule] = mustBe(rule); });
+
+installShorthands(mustBe, mustBe);
 
 
 mustBe.withArgs = function mustBeWithArgs(crit, descr) {
