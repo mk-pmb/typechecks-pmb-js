@@ -4,6 +4,7 @@
 
 
 var EX = function installShorthands(dest, base) {
+  if (!base) { return EX(dest, dest); }
   dest.finNum = base('fin num');
   dest.near = base('nonEmpty ary');
   dest.nest = base('nonEmpty str');
