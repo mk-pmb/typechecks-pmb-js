@@ -24,6 +24,8 @@ maybeUnsupp('buf', canHaz(typeof Buffer) && Buffer.isBuffer);
 
 
 defMtd.multi(EX, [
+  function any() { return true; },
+
   function fun(x) { return ((typeof x) === 'function'); },
   function str(x) { return ((typeof x) === 'string'); },
   function symb(x) { return ((typeof x) === 'symbol'); },
