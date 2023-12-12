@@ -4,19 +4,34 @@
 
 
 function lazyRepr(x) {
-  var t = typeof x;
-  try {
-    x = String(x);
-    if (x === t) { return x; }
-    if (t === 'function') {
-      return x.split(/\s*(\{|\))/).slice(0, 2).join('');
-    }
-    x = JSON.stringify(x);
-  } catch (e) {
-    x = '[cannot stringify: ' + e + ']';
-  }
-  return t + ' ' + x;
+  var t = typeof x, s = lazyRepr.val(t, x);
+  if (s === t) { return t; }
+  return t + ' ' + s;
 }
+
+
+lazyRepr.val = function lazyReprVal(t, x) {
+  var s;
+  try {
+    s = String(x);
+  } catch (e) {
+    s = '[cannot stringify: ' + e + ']';
+  }
+  if (t === s) { return s; } // null, undefined
+  if (t === 'object') {
+    if (s === '[object Object]') {
+      s = Object.keys(x).join(', ');
+      return '{' + (s && ' ') + s + (s && ' ') + '}';
+    }
+    return s;
+  }
+  if (t === 'function') {
+    return s.split(/\s*(\{|\))/).slice(0, 2).join('');
+  }
+  if (t === 'string') { return JSON.stringify(s); }
+  return s;
+};
+
 
 
 module.exports = lazyRepr;

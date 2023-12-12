@@ -83,7 +83,7 @@ test(Boolean);
 test(null);
 test(NaN);      // with Set, NaN can be found.
 
-test = makeTest([ ['same', NaN] ], 'same(number "NaN")');
+test = makeTest([ ['same', NaN] ], 'same(number NaN)');
 test({ ok: NaN });
 test({ isNot: 'same',  nope: 'NaN' });
 
@@ -178,8 +178,7 @@ mustBe.keyless('Literal zero', 0);
 mustBe.keyless('Negative five', -5);
 mustBe.keyless('The truth', true);
 mustFail(function fail() { mustBe.keyless('foo dict', { foo: 1 }); },
-  "AssertionError: foo dict must be keyless but isn't keyless: " +
-  'object "[object Object]"');
+  "AssertionError: foo dict must be keyless but isn't keyless: object { foo }");
 mustBe.keyless('undef');
 mustBe.keyless('null', null);
 
