@@ -101,7 +101,7 @@ function mustBe(criteria, descr) {
 
 mustBe.IMPL = {
 
-  installShorthands,
+  installShorthands: installShorthands,
   // ^- For use in libraries that wrap the mustBe function, e.g. objpop.
 
 };
