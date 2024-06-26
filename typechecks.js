@@ -2,11 +2,10 @@
 /* -*- tab-width: 2 -*- */
 'use strict';
 
-var is, defMtd = require('./src/defmtd'),
-  coreCrit = require('./src/crits.core'),
+var is, getOwn = require('getown'),
   derivCrit = require('./src/crits.deriv'),
+  coreCrit = require('./src/crits.core'),
   oneParamCrit = require('./src/crits.1param'),
-  getOwn = require('getown'),
   q = require('./src/lazyrepr');
 
 function makeIsWithArgs(args) {
