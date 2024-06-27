@@ -3,7 +3,6 @@
 'use strict';
 
 var is, getOwn = require('getown'),
-  derivCrit = require('./src/crits.deriv'),
   coreCrit = require('./src/crits.core'),
   oneParamCrit = require('./src/crits.1param'),
   q = require('./src/lazyrepr');
@@ -27,7 +26,6 @@ is = function is(crit) {
 };
 Object.assign(is,
   coreCrit,
-  derivCrit,
   oneParamCrit,
   { lazyRepr: q });
 
