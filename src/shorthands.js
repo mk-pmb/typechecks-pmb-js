@@ -20,6 +20,7 @@ EX.singleWordRules = [
   'fun',
   'keyless',
   'obj',
+  'str',
 ];
 
 
