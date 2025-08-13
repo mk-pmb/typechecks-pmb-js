@@ -109,14 +109,16 @@ mustBe.IMPL = {
 mustBe.tProp = function propMustBe(t, o, c, p, d) {
   // t: topic prefix (description of object)
   // o: object, c: criterion, p: property name, d: default value
-  var n = arguments.length;
+  var n = arguments.length, v;
   if (n <= 3) {
     p = bindArgs(propMustBe, arguments);
     if (n < 3) { installShorthands(p); }
     return p;
   }
   t = String(t || (String(o) + ': '));
-  return mustBe(c)(t + '"' + String(p) + '"', getOwn(o, p, d));
+  v = getOwn(o, p, d);
+  // console.debug({ getOwn, t, o, c, p, d, v });
+  return mustBe(c)(t + '"' + String(p) + '"', v);
 };
 mustBe.prop = mustBe.tProp.bind(null, null);
 
