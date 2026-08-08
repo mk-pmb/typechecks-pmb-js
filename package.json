@@ -1,5 +1,5 @@
 { "name": "typechecks-pmb",
-  "version": "0.240627.1",
+  "version": "0.240627.2",
   "description": "Yet another collection of typechecks.",
   "keywords": [],
 
@@ -23,10 +23,7 @@
   },
   "main": "typechecks.js",
   "scripts": { "test": "nodejs test/all.js" },
-  "directories": {
-    "doc": "doc",
-    "test": "test"
-  },
+  "directories": { "test": "test" },
 
   "dependencies": {
     "getown": "^1.0.0"
@@ -37,5 +34,5 @@
   },
 
 
-  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+  "engines": { "npm": ">=7.0.0", "node": ">=16.0.0" }
 }
