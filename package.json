@@ -17,8 +17,8 @@
 
   "exports": {
     ".": "./typechecks.js",
-    "./must-be": "./must-be.js",
     "./must-be.js": "./must-be.js",
+    "./must-be": "./must-be.js",
     "./package.json": "./package.json"
   },
   "main": "typechecks.js",
