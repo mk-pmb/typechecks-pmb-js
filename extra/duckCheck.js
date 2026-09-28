@@ -9,7 +9,7 @@ var EX, emArr = [], loMapValues = require('lodash.mapvalues');
 
 EX = function makeDuckCheck(duckSpec) {
   var f = function isDuck(x) { return !isDuck.whyNot(x); };
-  loMapValues(EX.duckCheckApi, function bind(v, k) { f[k] = v.bind(f); });
+  loMapValues(EX.duckCheckApi, function b(v, k) { f[k] = v.bind(null, f); });
   Object.assign(f, duckSpec);
   if (!f.descr) { throw new Error('Non-descript duck!'); }
   return f;
@@ -32,25 +32,30 @@ EX.quacksLikeAComplaint = function quacksLikeAComplaint(x) {
 };
 
 
-function filterJoinSp(l, f) { return l && l.filter && l.filter(f).join(' '); }
+function notBool(x) { return (typeof x !== 'boolean'); }
 
-
-EX.defaultPropChecks = {
-  boolProps: function b(k) { return (typeof x[k] !== 'boolean'); },
-  truthyProps: function t(k) { return !x[k]; },
-};
+function wnfj(o, k, f) { // wnfj = whyNot filter+join
+  if (!o) { return; }
+  o = o[k];
+  if (!o) { return; }
+  if (!o.filter) { return; }
+  o = (o.filter(f).join(' ') || '');
+  if (!o) { return; }
+  return 'Missing ' + k + ': ' + o;
+}
 
 
 EX.duckCheckApi  = {
 
   whyNot: function why(isDuck, x, opt) {
-    if (!x) { return 'Falsey value'; }
-    var bad;
-    loMapValues(EX.defaultPropChecks, function check(how, key) {
-      if (bad) { return; }
-      bad = filterJoinSp(isDuck[key], how);
-      if (bad) { bad = 'Missing ' + key + ': ' + bad; }
-    });
+    if (!x) {
+      if (isDuck.allowFalsey) { return ''; }
+      return 'Falsey value';
+    }
+    var bad = (
+      wnfj(isDuck, 'boolProps', function b(k) { return notBool(x[k]); })
+      || wnfj(isDuck, 'truthyProps', function t(k) { return !x[k]; })
+    );
     if (bad) { return bad; }
     if (isDuck.extraComplaints) {
       bad = isDuck.extraComplaints(x, opt, isDuck);

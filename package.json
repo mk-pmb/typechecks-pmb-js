@@ -1,5 +1,5 @@
 { "name": "typechecks-pmb",
-  "version": "0.240627.2",
+  "version": "0.240627.3",
   "description": "Yet another collection of typechecks.",
   "keywords": [],
 
@@ -17,6 +17,7 @@
 
   "exports": {
     ".": "./typechecks.js",
+    "./extra/*": "./extra/*",
     "./must-be.js": "./must-be.js",
     "./must-be": "./must-be.js",
     "./package.json": "./package.json"
